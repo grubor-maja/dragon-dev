@@ -1,6 +1,6 @@
 import CaseStudy from "./CaseStudy";
 
-const CaseStudies = ({caseStudies}) => {
+const CaseStudiesGrid = ({caseStudies}) => {
 return (
     <>
     <div className="case-studies">
@@ -11,4 +11,4 @@ return (
     </>
 )
 }
-export default CaseStudies;
+export default CaseStudiesGrid;

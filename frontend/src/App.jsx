@@ -4,7 +4,6 @@ import Navbar from './components/Navbar'
 import { useState } from 'react'
 import { useEffect } from 'react';
 import axios from 'axios';
-import CaseStudies from './components/CaseStudies';
 
 function App() {
 
@@ -26,7 +25,6 @@ function App() {
   return (
     <>
       <Navbar/>
-      <CaseStudies caseStudies={caseStudies}/>
     </>
   )
 }

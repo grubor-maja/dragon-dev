@@ -14,8 +14,31 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req,res) => {
     try {
-        const caseStudies = await CaseStudy.find();
-        res.json(caseStudies);        
+        // query parameters
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+        const category = req.query.category;
+        const sortBy = req.query.sortBy || 'title';
+        // filter
+        const filter = category? {category} : {};
+
+        // sorting
+        const sortOption = {}
+        if(sortBy) {
+            const sortField = sortBy.startsWith('-') ? sortBy.slice(1) : sortBy;
+            const sortOrder = sortBy.startsWith('-') ? -1 : 1;
+            sortOption[sortField] = sortOrder;
+        } 
+
+        const startIndex = (page-1)*limit;
+        const totalDocuments = await CaseStudy.countDocuments(filter);
+        const caseStudies = await CaseStudy.find(filter).sort(sortOption).skip(startIndex).limit(limit);
+        
+        res.json({
+            caseStudies,
+            totalPages: Math.ceil(totalDocuments/limit),
+            currentPage: page
+        });        
     } catch (error) {
         res.status(500).json({message: error.message});
     }
